@@ -180,6 +180,13 @@ Template.sidebarItem.events({
 			});
 		}
 
+		items.push({
+			icon: 'analytics',
+			name: t('Analytics'),
+			type: 'sidebar-item',
+			id: 'channel-analytics',
+		});
+
 		if (canLeave()) {
 			items.push({
 				icon: 'sign-out',

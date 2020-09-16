@@ -416,6 +416,102 @@ export class Messages extends Base {
 		return this.find(query, options);
 	}
 
+	findVisibleByRoomIdBetweenTimestampsInclusiveNotContainingTypes(roomId, afterTimestamp, beforeTimestamp, options) {
+		const query = {
+			_hidden: {
+				$ne: true,
+			},
+			rid: roomId,
+			t: { $exists: 0 },
+			ts: {
+				$gte: afterTimestamp,
+				$lte: beforeTimestamp,
+			},
+		};
+
+		return this.find(query, options);
+	}
+
+	findVisibleByRoomIdBetweenTimestampsInclusiveDiscussionCreated(roomId, afterTimestamp, beforeTimestamp, options) {
+		const query = {
+			_hidden: {
+				$ne: true,
+			},
+			rid: roomId,
+			t: { $eq: 'discussion-created' },
+			ts: {
+				$gte: afterTimestamp,
+				$lte: beforeTimestamp,
+			},
+		};
+
+		return this.find(query, options);
+	}
+
+	findVisibleByRoomIdBetweenTimestampsInclusiveDoubts(roomId, afterTimestamp, beforeTimestamp, options) {
+		const query = {
+			_hidden: {
+				$ne: true,
+			},
+			rid: roomId,
+			replies: { $exists: 1 },
+			ts: {
+				$gte: afterTimestamp,
+				$lte: beforeTimestamp,
+			},
+		};
+
+		return this.find(query, options);
+	}
+
+	findVisibleByRoomIdBetweenTimestampsInclusiveFiles(roomId, afterTimestamp, beforeTimestamp, options) {
+		const query = {
+			_hidden: {
+				$ne: true,
+			},
+			rid: roomId,
+			file: { $exists: 1 },
+			ts: {
+				$gte: afterTimestamp,
+				$lte: beforeTimestamp,
+			},
+		};
+
+		return this.find(query, options);
+	}
+
+	findVisibleByRoomIdBetweenTimestampsUserJoined(roomId, afterTimestamp, beforeTimestamp, options) {
+		const query = {
+			_hidden: {
+				$ne: true,
+			},
+			t: 'uj',
+			rid: roomId,
+			ts: {
+				$gte: afterTimestamp,
+				$lte: beforeTimestamp,
+			},
+		};
+
+		return this.find(query, options);
+	}
+
+	findVisibleByRoomIdBetweenTimestampsInclusiveURLs(roomId, afterTimestamp, beforeTimestamp, options) {
+		const query = {
+			_hidden: {
+				$ne: true,
+			},
+			rid: roomId,
+			urls: { $exists: 1 },
+			ts: {
+				$gte: afterTimestamp,
+				$lte: beforeTimestamp,
+			},
+		};
+
+		return this.find(query, options);
+	}
+
 	findStarredByUserAtRoom(userId, roomId, options) {
 		const query = {
 			_hidden: { $ne: true },

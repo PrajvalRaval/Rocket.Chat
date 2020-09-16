@@ -172,6 +172,13 @@ FlowRouter.notFound = {
 	},
 };
 
+FlowRouter.route('/analytics/channel/:rid?', {
+	name: 'channel-analytics',
+	action: () => {
+		renderRouteComponent(() => import('./views/channel-analytics/channelAnalytics'), { template: 'main', region: 'center' });
+	},
+});
+
 Meteor.startup(() => {
 	FlowRouter.initialize();
 });

@@ -197,6 +197,10 @@ Template.popover.events({
 			return false;
 		}
 
+		if (action === 'channel-analytics') {
+			FlowRouter.go(`/analytics/channel/${ rid }`);
+		}
+
 		if (action === 'unread') {
 			Meteor.call('unreadMessages', null, rid, function(error) {
 				if (error) {

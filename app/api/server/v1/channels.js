@@ -382,6 +382,34 @@ API.v1.addRoute('channels.history', { authRequired: true }, {
 	},
 });
 
+API.v1.addRoute('channels.analytics', { authRequired: true }, {
+	get() {
+		const findResult = findChannelByIdOrName({ params: this.requestParams(), checkedArchived: false });
+
+		if (!this.queryParams.latest || !this.queryParams.oldest) {
+			return API.v1.failure('Insufficient params provided.');
+		}
+
+		const latestDate = new Date(this.queryParams.latest);
+		const oldestDate = new Date(this.queryParams.oldest);
+
+		let result;
+		Meteor.runAsUser(this.userId, () => {
+			result = Meteor.call('getChannelAnalytics', {
+				rid: findResult._id,
+				latest: latestDate,
+				oldest: oldestDate,
+			});
+		});
+
+		if (!result) {
+			return API.v1.unauthorized();
+		}
+
+		return API.v1.success(result);
+	},
+});
+
 API.v1.addRoute('channels.info', { authRequired: true }, {
 	get() {
 		return API.v1.success({
