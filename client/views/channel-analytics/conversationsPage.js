@@ -27,7 +27,7 @@ export const ConversationsPage = React.memo(function ConversationsPage({ analyti
 							<Box display='flex' flexDirection='row' flexGrow={1} justifyContent='space-around' flexWrap='wrap'>
 								<Box fontScale='s3' color='strong'>Per Day</Box>
 								<Box display='flex' flexDirection='column' mie='x12' flexGrow={1}>
-									<Box fontScale='h1' textAlign='right'>{analytics.averageMessagePerDay}</Box>
+									<Box fontScale='h1' textAlign='right'>{analytics.totalAverageMessagePerDay}</Box>
 									<Box fontScale='micro' color='hint' textAlign='right'>
 									Average number of messages sent per day in given time duration.
 									</Box>
@@ -55,7 +55,7 @@ export const ConversationsPage = React.memo(function ConversationsPage({ analyti
 							<Box display='flex' flexDirection='row' flexGrow={1} justifyContent='space-around' flexWrap='wrap'>
 								<Box fontScale='s3' color='strong'>Per Day</Box>
 								<Box display='flex' flexDirection='column' mie='x12' flexGrow={1}>
-									<Box fontScale='h1' textAlign='right'>{analytics.averageDiscussionsCreatedPerDay}</Box>
+									<Box fontScale='h1' textAlign='right'>{analytics.totalAverageDiscussionsCreatedPerDay}</Box>
 									<Box fontScale='micro' color='hint' textAlign='right'>
 									Average number of discussions per day in given time duration.
 									</Box>

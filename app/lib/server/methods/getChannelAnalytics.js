@@ -4,6 +4,7 @@ import _ from 'underscore';
 
 import { hasPermission } from '../../../authorization';
 import { Subscriptions, Messages } from '../../../models';
+import { normalizeMessagesForUser } from '../../../utils/server/lib/normalizeMessagesForUser';
 
 Meteor.methods({
 	getChannelAnalytics({ rid, latest, oldest }) {
@@ -64,6 +65,7 @@ Meteor.methods({
 		let allLinksInGivenTimeline = [];
 		let allFilesInGivenTimeline = [];
 		let allUserJoinedInGivenTimeline = [];
+		const allActiveUsersInGivenTimeline = [];
 
 		allMessagesInGivenTimeline = Messages.findVisibleByRoomIdBetweenTimestampsInclusiveNotContainingTypes(rid, oldest, latest, options).fetch();
 		allDiscussionsCreatedInGivenTimeline = Messages.findVisibleByRoomIdBetweenTimestampsInclusiveDiscussionCreated(rid, oldest, latest, options).fetch();
@@ -79,6 +81,20 @@ Meteor.methods({
 		});
 		allLinksInGivenTimeline = [].concat.apply([], totalLinksPostedInGivenChannel);
 
+		const normalisedAllMessagesInGivenTimeline = normalizeMessagesForUser(allMessagesInGivenTimeline, fromUserId);
+		const everyActiveUserWithDuplicates = normalisedAllMessagesInGivenTimeline.map((x) => {
+			const everyActiveUserWithDuplicates = x.u.username;
+			return everyActiveUserWithDuplicates;
+		});
+
+		if (everyActiveUserWithDuplicates.length > 0) {
+			everyActiveUserWithDuplicates.forEach((c) => {
+				if (!allActiveUsersInGivenTimeline.includes(c)) {
+					allActiveUsersInGivenTimeline.push(c);
+				}
+			});
+		}
+
 		const averageMessagePerDay = getAverageDayCountOfData(oldest, latest, allMessagesInGivenTimeline.length);
 		const averageDiscussionsCreatedPerDay = getAverageDayCountOfData(oldest, latest, allDiscussionsCreatedInGivenTimeline.length);
 		const averageUsersJoinedPerDay = getAverageDayCountOfData(oldest, latest, allUserJoinedInGivenTimeline.length);
@@ -87,17 +103,18 @@ Meteor.methods({
 			_id: room._id,
 			channelName: room.name,
 			fname: room.fname,
-			totalUserCount: room.usersCount,
 			totalChannelMessages: room.msgs,
 			totalChannelMessagesInGivenTime: allMessagesInGivenTimeline.length,
-			averageMessagePerDay,
+			totalAverageMessagePerDay: averageMessagePerDay,
 			totalDiscussionsCreated: allDiscussionsCreatedInGivenTimeline.length,
-			averageDiscussionsCreatedPerDay,
+			totalAverageDiscussionsCreatedPerDay: averageDiscussionsCreatedPerDay,
 			totalDoubts: allDoubtsInGivenTimeline.length,
 			totalLinks: allLinksInGivenTimeline.length,
 			totalFiles: allFilesInGivenTimeline.length,
+			totalUserCount: room.usersCount,
 			totalNewUsersJoined: allUserJoinedInGivenTimeline.length,
-			averageUsersJoinedPerDay,
+			totalAverageUsersJoinedPerDay: averageUsersJoinedPerDay,
+			totalActiveUsersInGivenTimeline: allActiveUsersInGivenTimeline.length,
 			fromDate: oldest,
 			toDate: latest,
 		};

@@ -39,7 +39,7 @@ export const UsersPage = React.memo(function UsersPage({ analytics }) {
 							<Box display='flex' flexDirection='row' flexGrow={1} justifyContent='space-around' flexWrap='wrap'>
 								<Box fontScale='s3' color='strong'>Join Rate</Box>
 								<Box display='flex' flexDirection='column' mie='x12' flexGrow={1}>
-									<Box fontScale='h1' textAlign='right'>{analytics.averageUsersJoinedPerDay}</Box>
+									<Box fontScale='h1' textAlign='right'>{analytics.totalAverageUsersJoinedPerDay}</Box>
 									<Box fontScale='micro' color='hint' textAlign='right'>
 									Average number of students joined in given duration of time.
 									</Box>
@@ -51,7 +51,7 @@ export const UsersPage = React.memo(function UsersPage({ analytics }) {
 							<Box display='flex' flexDirection='row' flexGrow={1} justifyContent='space-around' flexWrap='wrap'>
 								<Box fontScale='s3' color='strong'>Returning Users</Box>
 								<Box display='flex' flexDirection='column' mie='x12' flexGrow={1}>
-									<Box fontScale='h1' textAlign='right'>{analytics.averageUsersJoinedPerDay}</Box>
+									<Box fontScale='h1' textAlign='right'>{analytics.totalAverageUsersJoinedPerDay}</Box>
 									<Box fontScale='micro' color='hint' textAlign='right'>
 									Total students returned.
 									</Box>
@@ -63,7 +63,7 @@ export const UsersPage = React.memo(function UsersPage({ analytics }) {
 							<Box display='flex' flexDirection='row' flexGrow={1} justifyContent='space-around' flexWrap='wrap'>
 								<Box fontScale='s3' color='strong'>Active Users</Box>
 								<Box display='flex' flexDirection='column' mie='x12' flexGrow={1}>
-									<Box fontScale='h1' textAlign='right'>{analytics.averageUsersJoinedPerDay}</Box>
+									<Box fontScale='h1' textAlign='right'>{analytics.totalActiveUsersInGivenTimeline}</Box>
 									<Box fontScale='micro' color='hint' textAlign='right'>
 									Total number of students who messaged or commented.
 									</Box>
