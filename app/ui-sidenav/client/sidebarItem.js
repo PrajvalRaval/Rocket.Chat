@@ -138,6 +138,13 @@ Template.sidebarItem.events({
 			return !(((roomData.cl != null) && !roomData.cl) || ['d', 'l'].includes(roomData.t));
 		};
 
+		const isPublicChannel = () => {
+			const roomData = Session.get(`roomData${ this.rid }`);
+			if (!roomData) { return false; }
+			if (roomData.t === 'c') { return true; }
+			return false;
+		};
+
 		const canFavorite = settings.get('Favorite_Rooms') && ChatSubscription.find({ rid: this.rid }).count() > 0;
 		const isFavorite = () => {
 			const sub = ChatSubscription.findOne({ rid: this.rid }, { fields: { f: 1 } });
@@ -180,12 +187,14 @@ Template.sidebarItem.events({
 			});
 		}
 
-		items.push({
-			icon: 'analytics',
-			name: t('Analytics'),
-			type: 'sidebar-item',
-			id: 'channel-analytics',
-		});
+		if (isPublicChannel()) {
+			items.push({
+				icon: 'analytics',
+				name: t('Analytics'),
+				type: 'sidebar-item',
+				id: 'channel-analytics',
+			});
+		}
 
 		if (canLeave()) {
 			items.push({
