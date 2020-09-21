@@ -571,10 +571,29 @@ API.v1.addRoute('channels.members', { authRequired: true }, {
 
 		const members = subscriptions.fetch().map((s) => s.u && s.u._id);
 
-		const users = Users.find({ _id: { $in: members } }, {
-			fields: { _id: 1, username: 1, name: 1, status: 1, statusText: 1, utcOffset: 1 },
-			sort: { username: sort.username != null ? sort.username : 1 },
-		}).fetch();
+		const viewFullOtherUserInfo = hasPermission(this.userId, 'view-full-other-user-info');
+
+		let latestDate = new Date();
+		if (this.queryParams.latest) {
+			latestDate = new Date(this.queryParams.latest);
+		}
+
+		let oldestDate = undefined;
+		if (this.queryParams.oldest) {
+			oldestDate = new Date(this.queryParams.oldest);
+		}
+
+		const users = Users.find(
+			{
+				_id: { $in: members },
+				createdAt: {
+					$gte: oldestDate,
+					$lte: latestDate,
+				},
+			}, {
+				fields: { _id: 1, username: 1, name: 1, status: 1, statusText: 1, utcOffset: 1, ...viewFullOtherUserInfo && { emails: 1, createdAt: 1 } },
+				sort: { username: sort.username != null ? sort.username : 1 },
+			}).fetch();
 
 		return API.v1.success({
 			members: users,

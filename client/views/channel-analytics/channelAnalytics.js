@@ -174,7 +174,7 @@ export const ChannelAnalytics = React.memo(function ChannelAnalytics({ onChange 
 		return <Page id='channel-analytics'>
 			<Page.Header title={`${ analytics.fname ? analytics.fname : analytics.channelName } - Analytics`}></Page.Header>
 			<Divider />
-			<Page.Content>
+			<Page.ScrollableContentWithShadow>
 				<FieldGroup>
 					<Field>
 						<Field.Row>
@@ -205,7 +205,7 @@ export const ChannelAnalytics = React.memo(function ChannelAnalytics({ onChange 
 					(tabs === 'users' && <UsersPage analytics={analytics}></UsersPage>)
                         || (tabs === 'conversations' && <ConversationsPage analytics={analytics}></ConversationsPage>)
 				}
-			</Page.Content>
+			</Page.ScrollableContentWithShadow>
 		</Page>;
 	}
 
