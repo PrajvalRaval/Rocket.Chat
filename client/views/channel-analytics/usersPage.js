@@ -5,7 +5,7 @@ import Page from '../../components/basic/Page';
 
 export const UsersPage = React.memo(function UsersPage({ analytics }) {
 	return (
-		<Page id='userss-page'>
+		<Page id='users-page'>
 			<Page.ScrollableContentWithShadow>
 				<Box flex={1} justifyContent={'center'}>
 					<Grid flex={1} justifyContent={'center'}>

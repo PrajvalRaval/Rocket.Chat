@@ -12,6 +12,7 @@ import { useForm } from '../../hooks/useForm';
 import { analyticsSelectOptions } from './data/channelAnalyticsSelectOptions';
 import { returnOldAndLatestTimestamps, getDateRangeTimestamps } from './methods/datePickerMethods';
 import { dateRanges } from './data/rangeEnum';
+import NewUserList from './newUserList';
 
 export const ChannelAnalytics = React.memo(function ChannelAnalytics({ onChange }) {
 	let rid = useRouteParameter('rid');
@@ -202,8 +203,9 @@ export const ChannelAnalytics = React.memo(function ChannelAnalytics({ onChange 
 				</FieldGroup>
 				<Divider />
 				{
-					(tabs === 'users' && <UsersPage analytics={analytics}></UsersPage>)
-                        || (tabs === 'conversations' && <ConversationsPage analytics={analytics}></ConversationsPage>)
+					(tabs === 'users' && <UsersPage analytics={analytics} />)
+						|| (tabs === 'conversations' && <ConversationsPage analytics={analytics} />)
+						|| (tabs === 'new-users-list' && <NewUserList roomId={rid} oldest={analytics.fromDate} latest={analytics.toDate}/>)
 				}
 			</Page.ScrollableContentWithShadow>
 		</Page>;
